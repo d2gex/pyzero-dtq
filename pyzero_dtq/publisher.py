@@ -10,7 +10,7 @@ class Publisher(IProcess):
         self.url = url
         self.identity = identity
         self._result_queue = None
-        self.pub = zmq_pub.Publisher(self.url, identity)
+        self.pub = zmq_pub.Publisher(url=url, identity=identity)
 
     @property
     def result_queue(self):

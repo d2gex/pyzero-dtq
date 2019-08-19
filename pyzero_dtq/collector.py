@@ -61,28 +61,59 @@ class Collector(IProcess):
 
     def start_publisher(self, loops=True):
 
-        def run_publisher(identity, result_queue_factory):
-            publisher = Publisher(self.publisher_url, identity)
+        def run_publisher(publisher_url, identity, result_queue_factory):
+            publisher = Publisher(publisher_url, identity)
             publisher.result_queue = result_queue_factory.child()
             publisher.run(loops)
 
         child_process = multiprocessing.Process(target=run_publisher,
-                                                args=(self.pub_identity,
+                                                args=(self.publisher_url,
+                                                      self.pub_identity,
                                                       self.result_queue_factory))
         child_process.start()
         return child_process
 
+    def kill_workers(self):
+        for _ in self.workers:
+            self.task_queue.send(mpq_protocol.REQ_DIE)
+
+    def kill_publisher(self):
+        if self.publisher:
+            self.result_queue.send(mpq_protocol.REQ_DIE)
+
+    def clean(self):
+
+        # Release sink resource
+        if self.sink:
+            self.sink.clean()
+
+        # Kill all running workers if running
+        if self.workers:
+            self.kill_workers()
+            for child in self.workers:
+                child.join()
+
+        # Kill the publisher if running
+        if self.publisher:
+            self.kill_publisher()
+            self.publisher.join()
+
     def run(self, loops=True):
         stop = False
 
-        while not stop and loops:
-            task = self.sink.run()
-            if task:
-                self.task_queue.send(mpq_protocol.REQ_DO, data=task[-1])
-                if self.workers_running < self.max_workers:
-                    child_process = self.start_worker()
-                    self.workers.append(child_process)
-                    self.workers_running += 1
+        try:
+            while not stop and loops:
+                task = self.sink.run()
+                if task:
+                    self.task_queue.send(mpq_protocol.REQ_DO, data=task[-1])
+                    if self.workers_running < self.max_workers:
+                        child_process = self.start_worker()
+                        self.workers.append(child_process)
+                        self.workers_running += 1
 
-            if not stop and not isinstance(loops, bool):
-                loops -= 1
+                if not stop and not isinstance(loops, bool):
+                    loops -= 1
+        except KeyboardInterrupt:
+            pass
+        finally:
+            self.clean()
