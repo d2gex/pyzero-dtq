@@ -39,6 +39,8 @@ class Publisher(IProcess):
 
                 if not stop and not isinstance(loops, bool):
                     loops -= 1
+        except KeyboardInterrupt:
+            pass
         finally:
             self.clean()
 
