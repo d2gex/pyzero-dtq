@@ -7,5 +7,5 @@ class IProcess(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def run(self, loops):
+    def run(self, loops=True):
         pass
