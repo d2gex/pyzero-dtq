@@ -5,6 +5,7 @@ from producer_sink.sink import Sink
 from pyzero_dtq.iprocess import IProcess
 from pyzero_dtq.worker import Worker
 from pyzero_dtq.publisher import Publisher
+from pyzero_dtq.application import Application
 
 
 class Collector(IProcess):
@@ -36,6 +37,8 @@ class Collector(IProcess):
 
     @app.setter
     def app(self, application):
+        if not issubclass(application, Application):
+            raise ValueError(f"'application' argument should be a subclass of {Application}")
         self._app = application
 
     def start_worker(self, loops=True):

@@ -32,7 +32,6 @@ def test_poison_pill(worker):
     worker.task_queue.receive.return_value = [mpq_protocol.REQ_DIE]
     loops = 10
     worker.run(loops)
-    worker.app.fetch.assert_called_once()
     worker.task_queue.receive.assert_called_once()
     worker.app.run.assert_not_called()
 
@@ -45,7 +44,6 @@ def test_perform_task(worker):
     worker.task_queue.receive.return_value = [mpq_protocol.REQ_DO]
     loops = 1
     worker.run(loops)
-    worker.app.fetch.assert_called_once()
     worker.task_queue.receive.assert_called_once()
     worker.app.run.assert_called_once()
     worker.result_queue.send.assert_called_once()

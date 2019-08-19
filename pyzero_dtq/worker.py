@@ -39,7 +39,7 @@ class Worker(IProcess):
 
         while not stop and loops:
 
-            task = self.task_queue.receive(func=self.app.fetch(), block=True)
+            task = self.task_queue.receive(func=self.app.accept, block=True)
             if task[mpq_protocol.S_PID_OFFSET - 1] == mpq_protocol.REQ_DIE:
                 stop = True
             else:

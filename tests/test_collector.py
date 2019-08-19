@@ -2,7 +2,8 @@ import pytest
 
 from pymulproc import mpq_protocol
 from pyzero_dtq import collector as collector_proc
-from unittest.mock import patch, call
+from pyzero_dtq.application import Application
+from unittest.mock import patch, MagicMock
 
 
 @pytest.fixture
@@ -43,3 +44,20 @@ def test_perform_task(collector):
     assert mock_start_worker.call_count == 10
     assert collector.workers_running == 10
     assert sum(collector.workers) == 10
+
+
+def test_app_setter_property(collector):
+    '''Ensure than when an app is provided vai @app property, this is a subclass of Application
+    '''
+
+    with pytest.raises(ValueError):
+        collector.app = MagicMock()
+
+    class AppSubclass(Application):
+
+        def accept(self, criteria):
+            pass
+
+        def run(self, task):
+            pass
+    collector.app = AppSubclass
