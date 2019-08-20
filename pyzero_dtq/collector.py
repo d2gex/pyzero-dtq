@@ -104,6 +104,7 @@ class Collector(IProcess):
         try:
             while not stop and loops:
                 task = self.sink.run()
+                # print(task)
                 if task:
                     self.task_queue.send(mpq_protocol.REQ_DO, data=task[-1])
                     if self.workers_running < self.max_workers:
