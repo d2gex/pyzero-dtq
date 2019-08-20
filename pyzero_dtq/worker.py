@@ -44,8 +44,8 @@ class Worker(IProcess):
                 if task[mpq_protocol.S_PID_OFFSET - 1] == mpq_protocol.REQ_DIE:
                     stop = True
                 else:
-                    result = self.app.run(task)
-                    self.result_queue.send(result)
+                    result = self.app.run(task[-1])
+                    self.result_queue.send(mpq_protocol.REQ_DO, data=result)
 
                 if not stop and not isinstance(loops, bool):
                     loops -= 1
