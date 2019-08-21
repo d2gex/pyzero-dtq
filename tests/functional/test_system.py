@@ -37,7 +37,7 @@ class TestSystem:
             '''Subscribers will run for a few loops each waiting for the distributed task queue to send an back the
             results and then release the socket at the end
             '''
-            subscriber = Subscriber(topic, url=url, identity=identity)
+            subscriber = Subscriber(url=url, identity=identity, topics=topic)
             for _ in range(loops):
                 data = subscriber.run()
                 if data:
