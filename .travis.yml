@@ -21,6 +21,8 @@ before_deploy:
   - mkdir -p src  # Create directory where the zipped code will be uploaded
   - mkdir -p zipped_code
   # Hack with cp's commands because Travis doesn't digest zip -r -i
+  - ls -l pyzero-dtq
+  - ls -l pyzero-dtq/pyzero_dtq
   - cp -r pyzero-dtq/pyzero_dtq src
   - cp pyzero-dtq/run_stress_test.py src
   - cp pyzero-dtq/appspec.yml src
