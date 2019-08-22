@@ -32,5 +32,16 @@ deploy:
   on: &2
     branch: stress_test_dep_ec2_travis
     repo: d2gex/pyzero-dtq
+- provider: codedeploy
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: pyzero-dtq
+  upload-dir: travis-builds/stress_test/dtq_server
+  key: latest.zip
+  bundle_type: zip
+  application: Pyzero-dtq
+  deployment_group: PyzeroStressTests
+  region: eu-west-2
+  on: *2
 
 
