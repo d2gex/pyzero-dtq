@@ -3,7 +3,7 @@ from unittest.mock import patch, Mock, call
 
 import pytest
 
-from stress_test import appio
+from pyzero_dtq import appio
 
 
 @pytest.fixture
