@@ -37,6 +37,7 @@ deploy:
 - provider: codedeploy
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
+  skip_cleanup: true
   bucket: pyzero-dtq
    # For the codedeploy section, the full relative path needs to be provided
   key: travis-builds/stress_test/dtq_server/latest.zip
