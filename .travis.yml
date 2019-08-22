@@ -29,6 +29,7 @@ deploy:
   bucket: pyzero-dtq/stress_test/dtq_server
   region: eu-west-2
   on: &2
+    branch: stress_test_dep_ec2_travis
     repo: d2gex/pyzero-dtq
 
 
