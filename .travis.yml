@@ -5,12 +5,28 @@ matrix:
     - python: 3.6
     # - python: 3.7 Travis does not allow python 3.7 installation at present
 
+branches:
+  - only:
+    - stress_test_dep_ec2_travis
+
 install:
-  - pip install -r requirements-dev.txt
+  - pip install -r requirements.txt
 
 script:
   - pytest
 
-branches:
-  - only:
-    - stress_test_deployment
+before_deploy:
+  - mkdir -p src  # Create directory where the zipped code will be uploaded
+  - zip -r pyzero_dtq *
+  - mv pyzero_dtq.zip src/latest.zip
+
+deploy:
+- provider: s3
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  local_dir: src
+  skip_cleanup: true
+  bucket: pyzero-dtq
+  region: eu-west-2
+
+
