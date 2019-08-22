@@ -1,8 +1,7 @@
 import sys
 
 from pyzero_dtq.collector import Collector
-from tests.stress.appio import AppIO
-
+from stress_test import AppIO
 
 if __name__ == "__main__":
 
