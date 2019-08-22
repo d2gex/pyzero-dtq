@@ -17,7 +17,7 @@ script:
 
 before_deploy:
   - mkdir -p src  # Create directory where the zipped code will be uploaded
-  - zip -r pyzero-dtq.zip . -i pyzero-dtq/pyzero_dtq/* pyzero-dtq/run_stress_test.py
+  - zip -r pyzero-dtq.zip . -i pyzero-dtq/pyzero_dtq/* pyzero-dtq/run_stress_test.py pyzero-dtq/appspec.yml
   - mv pyzero-dtq.zip src/latest.zip
 
 deploy:
