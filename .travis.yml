@@ -24,9 +24,11 @@ deploy:
 - provider: s3
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
+  # Local dir in Travis where the source code is
   local_dir: src
   skip_cleanup: true
   bucket: pyzero-dtq
+  # Relative path folder where to place the content of the local dir in Travis CI
   upload-dir: travis-builds/stress_test/dtq_server
   region: eu-west-2
   on: &2
@@ -36,8 +38,8 @@ deploy:
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
   bucket: pyzero-dtq
-  upload-dir: travis-builds/stress_test/dtq_server
-  key: latest.zip
+   # For the codedeploy section, the full relative path needs to be provided
+  key: travis-builds/stress_test/dtq_server/latest.zip
   bundle_type: zip
   application: Pyzero-dtq
   deployment_group: PyzeroStressTests
