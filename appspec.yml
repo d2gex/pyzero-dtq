@@ -12,6 +12,9 @@ hooks:
       timeout: 30
       runas:  ubuntu
   AfterInstall:
-    - location: 2_run.sh
+    - location: scripts/2_run.sh
+      timeout: 5
+      runas: ubuntu
+    - location: scripts/3_clean_up.sh
       timeout: 5
       runas: ubuntu
