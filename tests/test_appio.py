@@ -1,8 +1,9 @@
+from collections import deque
+from unittest.mock import patch, Mock, call
+
 import pytest
 
-from collections import deque
-from tests.stress import appio
-from unittest.mock import patch, Mock, call
+from pyzero_dtq import appio
 
 
 @pytest.fixture
