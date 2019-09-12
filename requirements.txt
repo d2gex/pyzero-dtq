@@ -1,2 +1,4 @@
 pymulproc==0.1.2
 pytest==5.0.1
+-e git+https://github.com/d2gex/pubsub-zmq.git@0.1.1#egg=pubsub-zmq
+-e git+https://github.com/d2gex/producer-sink-zmq.git@0.1.3#egg=producer-sink-zmq
